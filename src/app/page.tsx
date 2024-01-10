@@ -92,11 +92,6 @@ const Page = () => {
 
   return (
     <div className="flex h-screen w-screen flex-col sm:flex-row-reverse">
-      {process.env.NODE_ENV === 'development' && (
-        <h1 className="absolute left-2.5 top-2.5 z-50 rounded-md bg-black bg-opacity-75 p-1.5 text-xs text-white">
-          Maps Number: {id}
-        </h1>
-      )}
       <div className="relative h-3/5 flex-1 overflow-hidden sm:h-screen print:h-full">
         <Map
           initialViewState={{
@@ -142,9 +137,6 @@ const Page = () => {
         </div>
       </div>
       <div className="relative flex h-2/5 max-w-full flex-col overflow-hidden sm:h-full sm:w-4/12 sm:max-w-sm">
-        {/* <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-zinc-100"></div> 
-        あとで実装できたら実装 - メニューバーを画面上部まで引き伸ばす　*/}
-        <div className="mt-4 sm:mt-8"></div>
         <ul className="mx-auto block w-[90%] list-none space-y-4 overflow-scroll py-4">
           {geoJsonWithStyleListInMapBounds &&
             geoJsonWithStyleListInMapBounds.map((geoJsonWithStyle, geoIndex) => {
