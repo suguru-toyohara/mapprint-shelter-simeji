@@ -1,5 +1,9 @@
+'use client';
+
+import React, { useState } from 'react';
 import { Marker } from 'react-map-gl/maplibre';
 import { Feature, Geometry, GeoJsonProperties, Point } from 'geojson';
+import PointerDatails from './PointerDetails';
 
 interface Props {
   title: string;
@@ -24,9 +28,13 @@ export default function Pointer({
   style,
   index,
 }: Props): React.JSX.Element {
+  const [isHover, setIsHover] = useState<boolean>(false);
+
   if (!feature || !center) {
     return <span>null</span>;
   }
+
+  const address: string = feature.properties?.['KSJ2:AdminArea'] + ' ' + feature.properties?.['KSJ2:ADS'];
 
   return (
     <Marker
@@ -34,14 +42,22 @@ export default function Pointer({
       longitude={center.geometry.coordinates[0]}
       latitude={center.geometry.coordinates[1]}
       onClick={() => onClickMarker(center)}
-      style={{ zIndex: zIndex }}
+      style={{ zIndex: isHover ? zIndex * 2 : zIndex }}
+      className="items=center justify-center"
     >
+      {isHover && (
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
+          <PointerDatails title={title} address={address} />
+        </div>
+      )}
       <div
-        title={title}
+        // title={title}
         className="relative z-50 flex h-7 w-7 -rotate-[135deg] cursor-pointer items-center justify-center overflow-hidden rounded-bl-3xl rounded-br-3xl rounded-tr-3xl border-2 border-zinc-900 text-center text-base"
         style={{
           backgroundColor: style?.fillColor ? style.fillColor : 'rgba(255, 255, 255, 0.7)',
         }}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
       >
         <div className="relative z-50 rotate-[135deg] text-center text-base">
           <span
