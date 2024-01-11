@@ -1,6 +1,5 @@
-import { FaHospital, FaSchool } from 'react-icons/fa';
-import PlaceEmojiRenderer from './PlaceEmojiRenderer';
-import PlaceIconRenderer from './PlaceIconRenderer';
+import PlaceEmojiRenderer from './PositionType';
+import Icon from './Icon';
 
 interface GeoJsonFeatureListProps {
   emoji?: string;
@@ -37,7 +36,7 @@ export default function GeoJsonFeatureList({
       >
         <div className="flex w-full flex-row items-center">
           <span className="flex h-10 max-h-10 min-h-10 w-10 min-w-10 max-w-10 items-center justify-center rounded-full bg-zinc-500">
-            <PlaceIconRenderer emoji={emoji} />
+            <Icon emoji={emoji} />
           </span>
           <div className="flex flex-col truncate pl-4">
             <span className="font-medium text-zinc-900">{`${index + 1}. ${name}`}</span>
