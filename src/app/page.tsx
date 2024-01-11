@@ -12,6 +12,7 @@ import { GeoJsonWithStyle } from '@/types/geojson';
 import { overpassQueryWithStyleList } from '@/constants/mapQueriesAndStyles';
 import { GeoJsonToSomethings } from '@/components/GeoJsonToSomethings';
 import GeoJsonFeatureList from '@/components/GeoJsonFeatureList';
+import CopyRights from '@/components/CopyRights';
 
 // @ts-ignore
 import * as turf from '@turf/turf';
@@ -109,7 +110,7 @@ const Page = () => {
             setCurrentBounds(e.target.getBounds());
           }}
         >
-          {printMode !== true && (
+          {!printMode && (
             <>
               <GeolocateControl position="top-right" />
               <NavigationControl
@@ -120,39 +121,35 @@ const Page = () => {
               />
             </>
           )}
-          {geoJsonWithStyleListInMapBounds &&
-            geoJsonWithStyleListInMapBounds.map((geoJsonWithStyle) => {
-              return (
-                <GeoJsonToSomethings
-                  key={geoJsonWithStyle.id}
-                  geojson={geoJsonWithStyle.geojson}
-                  style={geoJsonWithStyle.style}
-                />
-              );
-            })}
+          {geoJsonWithStyleListInMapBounds?.map((geoJsonWithStyle) => {
+            return (
+              <GeoJsonToSomethings
+                key={geoJsonWithStyle.id}
+                geojson={geoJsonWithStyle.geojson}
+                style={geoJsonWithStyle.style}
+              />
+            );
+          })}
         </Map>
-        <div className="absolute bottom-1 right-1 z-20 text-sm font-normal">
-          <p>© OpenMapTiles © OpenStreetMap contributors</p>
-        </div>
+        <CopyRights />
       </div>
       <div className="relative flex h-2/5 max-w-full flex-col overflow-hidden sm:h-full sm:w-4/12 sm:max-w-sm">
         <ul className="mx-auto block w-[90%] list-none space-y-4 overflow-scroll py-4">
-          {geoJsonWithStyleListInMapBounds &&
-            geoJsonWithStyleListInMapBounds.map((geoJsonWithStyle, geoIndex) => {
-              const emoji = geoJsonWithStyle.style?.emoji;
-              return geoJsonWithStyle.geojson.features.map((feature, index) => {
-                return (
-                  <GeoJsonFeatureList
-                    key={feature.id}
-                    emoji={emoji}
-                    feature={feature}
-                    index={index}
-                    geoIndex={geoIndex}
-                    geoJsonWithStyle={geoJsonWithStyle}
-                  />
-                );
-              });
-            })}
+          {geoJsonWithStyleListInMapBounds?.map((geoJsonWithStyle, geoIndex) => {
+            const emoji = geoJsonWithStyle.style?.emoji;
+            return geoJsonWithStyle.geojson.features.map((feature, index) => {
+              return (
+                <GeoJsonFeatureList
+                  key={feature.id}
+                  emoji={emoji}
+                  feature={feature}
+                  index={index}
+                  geoIndex={geoIndex}
+                  geoJsonWithStyle={geoJsonWithStyle}
+                />
+              );
+            });
+          })}
         </ul>
       </div>
     </div>
