@@ -136,7 +136,7 @@ const Page = () => {
         <CopyRights />
       </div>
       <div className="relative flex h-2/5 max-w-full flex-col overflow-hidden sm:h-full sm:w-4/12 sm:max-w-sm">
-        <ul className="mx-auto block w-[90%] list-none space-y-2 overflow-scroll py-4">
+        <ul className="block list-none overflow-scroll py-4">
           {geoJsonWithStyleListInMapBounds?.map((geoJsonWithStyle, geoIndex) => {
             const emoji = geoJsonWithStyle.style?.emoji;
             return geoJsonWithStyle.geojson.features.map((feature, index) => {
@@ -147,6 +147,7 @@ const Page = () => {
                   feature={feature}
                   index={index}
                   geoIndex={geoIndex}
+                  length={geoJsonWithStyle.geojson.features.length}
                 />
               );
             });

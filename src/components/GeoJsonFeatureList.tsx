@@ -12,6 +12,7 @@ interface GeoJsonFeatureListProps {
   feature: any | undefined;
   index: number;
   geoIndex: number;
+  length: number;
 }
 
 export default function GeoJsonFeatureList({
@@ -19,6 +20,7 @@ export default function GeoJsonFeatureList({
   feature,
   index,
   geoIndex,
+  length,
 }: GeoJsonFeatureListProps): React.JSX.Element {
   if (!emoji || !feature) return <p>Object is Null</p>;
 
@@ -26,9 +28,9 @@ export default function GeoJsonFeatureList({
   const address: string = feature.properties?.['KSJ2:AdminArea'] + ' ' + feature.properties?.['KSJ2:ADS'];
 
   return (
-    <div key={name}>
+    <div key={name} className={`py-2 ${length !== index + 1 && 'border-b border-zinc-200'}`}>
       <PositionType emoji={emoji} index={index} geoIndex={geoIndex} />
-      <Accordion>
+      <Accordion sx={{ boxShadow: 0 }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <div className="flex w-full flex-row items-center truncate">
             <span className="mr-3 flex h-10 max-h-10 min-h-10 w-10 min-w-10 max-w-10 items-center justify-center rounded-full bg-zinc-500">
