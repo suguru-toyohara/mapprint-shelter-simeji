@@ -36,10 +36,10 @@ export default function GeoJsonFeatureList({
       <Accordion sx={{ boxShadow: 0 }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Grid container>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <Icon emoji={emoji} />
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={8}>
               <span className="flex h-full items-center" style={{ fontWeight: 500 }}>{`${
                 index + 1
               }. ${name}`}</span>
