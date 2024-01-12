@@ -6,6 +6,9 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 interface GeoJsonFeatureListProps {
   emoji?: string;
@@ -32,12 +35,22 @@ export default function GeoJsonFeatureList({
       <PositionType emoji={emoji} index={index} geoIndex={geoIndex} />
       <Accordion sx={{ boxShadow: 0 }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <div className="flex w-full flex-row items-center truncate">
+          <Grid container>
+            <Grid item xs={3}>
+              <Icon emoji={emoji} />
+            </Grid>
+            <Grid item xs={7}>
+              <span className="flex h-full items-center" style={{ fontWeight: 500 }}>{`${
+                index + 1
+              }. ${name}`}</span>
+            </Grid>
+          </Grid>
+          {/* <div className="flex w-full flex-row items-center truncate">
             <span className="mr-3 flex h-10 max-h-10 min-h-10 w-10 min-w-10 max-w-10 items-center justify-center rounded-full bg-zinc-500">
               <Icon emoji={emoji} />
             </span>
             <span className="font-medium text-zinc-900">{`${index + 1}. ${name}`}</span>
-          </div>
+          </div> */}
         </AccordionSummary>
         <AccordionDetails>
           <div className="truncate">
