@@ -2,7 +2,8 @@
 import * as turf from '@turf/turf';
 import { Feature, FeatureCollection, GeoJsonProperties, Point } from 'geojson';
 import { Fragment, useCallback, useEffect, useState } from 'react';
-import { Layer, Marker, Source, useMap } from 'react-map-gl/maplibre';
+import { Layer, Source, useMap } from 'react-map-gl/maplibre';
+import Pointer from './Pointer';
 
 export const GeoJsonToSomethings: React.FC<{
   geojson?: FeatureCollection;
@@ -14,56 +15,6 @@ export const GeoJsonToSomethings: React.FC<{
   };
 }> = ({ geojson, emoji, style }) => {
   const { current: map } = useMap();
-
-  const [currentZoom, setCurrentZoom] = useState<number | undefined>(8);
-  const [opacity, setOpacity] = useState(0.8);
-  const [fontSize, setFontSize] = useState('1em');
-
-  useEffect(() => {
-    if (!map) return;
-    map.on('load', () => {
-      setCurrentZoom(map.getZoom());
-    });
-    map.on('move', () => {
-      setCurrentZoom(map.getZoom());
-    });
-    setCurrentZoom(map.getZoom());
-  }, [map]);
-
-  // determine style of markers
-  useEffect(() => {
-    let newOpacity = 0.8;
-    let newFontSize = '1em';
-    if (currentZoom) {
-      if (14 <= currentZoom) {
-        newOpacity = 1;
-        newFontSize = '1.4em';
-      }
-      if (currentZoom < 14) {
-        newOpacity = 0.8;
-        newFontSize = '1.4em';
-      }
-      if (currentZoom < 13) {
-        newOpacity = 0.75;
-        newFontSize = '1.3em';
-      }
-      if (currentZoom < 12) {
-        newOpacity = 0.7;
-        newFontSize = '1.1em';
-      }
-      if (currentZoom < 11) {
-        newOpacity = 0.6;
-        newFontSize = '1em';
-      }
-      if (currentZoom < 10) {
-        newOpacity = 0.65;
-        newFontSize = '1em';
-      }
-    }
-    //console.info("zoom, size, opacity:", currentZoom, newFontSize, newOpacity);
-    setOpacity(newOpacity);
-    setFontSize(newFontSize);
-  }, [currentZoom]);
 
   const onClickMarker = useCallback(
     (center: Feature<Point, GeoJsonProperties> | undefined) => {
@@ -194,33 +145,15 @@ export const GeoJsonToSomethings: React.FC<{
                 }
               </Source>
             )}
-            <Marker
-              key={feature.id}
-              longitude={center.geometry.coordinates[0]}
-              latitude={center.geometry.coordinates[1]}
-              onClick={() => onClickMarker(center)}
-              style={{ zIndex: zIndex }}
-            >
-              <div
-                title={title}
-                className="relative z-50 flex h-7 w-7 -rotate-[135deg] cursor-pointer items-center justify-center overflow-hidden rounded-bl-3xl rounded-br-3xl rounded-tr-3xl border-2 border-zinc-900 text-center text-base"
-                style={{
-                  backgroundColor: style?.fillColor ? style.fillColor : 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                <div className="relative z-50 rotate-[135deg] text-center text-base">
-                  <span
-                    className="z-50 text-center text-base"
-                    style={{
-                      color: style?.color ? style.color : 'rgba(0, 0, 0, 0.8)',
-                    }}
-                  >
-                    {index + 1}
-                  </span>
-                </div>
-              </div>
-              {}
-            </Marker>
+            <Pointer
+              title={title}
+              feature={feature}
+              center={center}
+              onClickMarker={onClickMarker}
+              zIndex={zIndex}
+              style={style}
+              index={index}
+            />
           </Fragment>
         );
       })}

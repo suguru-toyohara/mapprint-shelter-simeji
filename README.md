@@ -8,7 +8,7 @@ pnpx prisma generate
 
 pnpm dev
 
-# Open http://localhost:3000/maps/1
+# Open http://localhost:3000/
 
 # Database
 
@@ -16,7 +16,6 @@ Preparation:
 
 ```
 export POSTGRES_URL=postgresql://postgres:postgres@localhost:5433/postgres?schema=public
-
 ```
 
 Usage:
