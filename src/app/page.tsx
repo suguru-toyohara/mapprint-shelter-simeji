@@ -13,6 +13,7 @@ import { overpassQueryWithStyleList } from '@/constants/mapQueriesAndStyles';
 import { GeoJsonToSomethings } from '@/components/GeoJsonToSomethings';
 import GeoJsonFeatureList from '@/components/GeoJsonFeatureList';
 import CopyRights from '@/components/CopyRights';
+import { exampleGeoJson } from '@/constants/exampleGeoJson';
 
 // @ts-ignore
 import * as turf from '@turf/turf';
@@ -62,32 +63,33 @@ const Page = () => {
   useEffect(() => {
     if (!geoJsonWithStyleList) return;
     if (!currentBounds) return;
-    setGeoJsonWithStyleListInMapBounds(
-      geoJsonWithStyleList.map((geoJsonWithStyle) => {
-        // currentBounds is a LngLatBounds object
-        // bbox extent in minX, minY, maxX, maxY order
-        // convert currentBounds to bbox array
-        const currentMapBbox = [
-          currentBounds.getWest(),
-          currentBounds.getSouth(),
-          currentBounds.getEast(),
-          currentBounds.getNorth(),
-        ];
-        const geojsonInMapBounds = geoJsonWithStyle.geojson.features.filter((feature) => {
-          // use turf.js to check if feature is in map bounds
-          const poly = turf.bboxPolygon(currentMapBbox);
-          const isInside = turf.booleanContains(poly, feature);
-          return isInside;
-        });
-        return {
-          ...geoJsonWithStyle,
-          geojson: {
-            type: 'FeatureCollection',
-            features: geojsonInMapBounds,
-          },
-        };
-      })
-    );
+    // setGeoJsonWithStyleListInMapBounds(
+    //   geoJsonWithStyleList.map((geoJsonWithStyle) => {
+    //     // currentBounds is a LngLatBounds object
+    //     // bbox extent in minX, minY, maxX, maxY order
+    //     // convert currentBounds to bbox array
+    //     const currentMapBbox = [
+    //       currentBounds.getWest(),
+    //       currentBounds.getSouth(),
+    //       currentBounds.getEast(),
+    //       currentBounds.getNorth(),
+    //     ];
+    //     const geojsonInMapBounds = geoJsonWithStyle.geojson.features.filter((feature) => {
+    //       // use turf.js to check if feature is in map bounds
+    //       const poly = turf.bboxPolygon(currentMapBbox);
+    //       const isInside = turf.booleanContains(poly, feature);
+    //       return isInside;
+    //     });
+    //     return {
+    //       ...geoJsonWithStyle,
+    //       geojson: {
+    //         type: 'FeatureCollection',
+    //         features: geojsonInMapBounds,
+    //       },
+    //     };
+    //   })
+    // );
+    setGeoJsonWithStyleListInMapBounds(exampleGeoJson);
   }, [geoJsonWithStyleList, currentBounds]);
 
   return (
@@ -134,7 +136,7 @@ const Page = () => {
         <CopyRights />
       </div>
       <div className="relative flex h-2/5 max-w-full flex-col overflow-hidden sm:h-full sm:w-4/12 sm:max-w-sm">
-        <ul className="mx-auto block w-[90%] list-none space-y-4 overflow-scroll py-4">
+        <ul className="mx-auto block w-[90%] list-none space-y-2 overflow-scroll py-4">
           {geoJsonWithStyleListInMapBounds?.map((geoJsonWithStyle, geoIndex) => {
             const emoji = geoJsonWithStyle.style?.emoji;
             return geoJsonWithStyle.geojson.features.map((feature, index) => {
@@ -145,7 +147,6 @@ const Page = () => {
                   feature={feature}
                   index={index}
                   geoIndex={geoIndex}
-                  geoJsonWithStyle={geoJsonWithStyle}
                 />
               );
             });
