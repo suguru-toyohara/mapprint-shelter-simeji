@@ -17,6 +17,7 @@ interface Props {
     emoji?: string;
   };
   index: number;
+  children?: React.ReactNode;
 }
 
 export default function Pointer({
@@ -27,6 +28,7 @@ export default function Pointer({
   zIndex,
   style,
   index,
+  children,
 }: Props): React.JSX.Element {
   const [isHover, setIsHover] = useState<boolean>(false);
 
@@ -66,7 +68,7 @@ export default function Pointer({
               color: style?.color ? style.color : 'rgba(0, 0, 0, 0.8)',
             }}
           >
-            {index + 1}
+            {children ? children : index + 1}
           </span>
         </div>
       </div>

@@ -45,12 +45,6 @@ export default function GeoJsonFeatureList({
               }. ${name}`}</span>
             </Grid>
           </Grid>
-          {/* <div className="flex w-full flex-row items-center truncate">
-            <span className="mr-3 flex h-10 max-h-10 min-h-10 w-10 min-w-10 max-w-10 items-center justify-center rounded-full bg-zinc-500">
-              <Icon emoji={emoji} />
-            </span>
-            <span className="font-medium text-zinc-900">{`${index + 1}. ${name}`}</span>
-          </div> */}
         </AccordionSummary>
         <AccordionDetails>
           <div className="truncate">
