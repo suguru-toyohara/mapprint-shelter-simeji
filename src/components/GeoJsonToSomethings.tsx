@@ -153,7 +153,7 @@ export const GeoJsonToSomethings: React.FC<{
               zIndex={zIndex}
               style={style}
               index={index}
-            />
+            ></Pointer>
           </Fragment>
         );
       })}
